@@ -4,7 +4,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>にあへのメロディ</title>
-  <script src="./にあへのメロディ確定版_files/Tone.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.39/Tone.min.js"></script>
   <style>
     body {
       background: #fefcf8;
@@ -98,7 +98,7 @@
     const buttons = document.querySelectorAll('.note-button');
     const display = document.getElementById('melodyDisplay');
     const endScreen = document.getElementById('endScreen');
-　 const synth = new Tone.PolySynth(Tone.Synth).toDestination();
+    const synth = new Tone.PolySynth(Tone.Synth).toDestination();
 
 
    const noteMap = {
@@ -111,7 +111,7 @@
 };
 
 
-　function playNote(note) {
+  function playNote(note) {
   const el = document.createElement('span');
   el.textContent = note;
   el.style.margin = '0 0.2rem';
