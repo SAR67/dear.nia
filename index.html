@@ -132,11 +132,16 @@
       if (userSequence.length === correctSequence.length) {
         const isCorrect = userSequence.every((val, index) => val === correctSequence[index]);
         if (isCorrect) {
-          document.querySelector('.instrument-container').style.display = 'none';
-          display.style.display = 'none';
-          endScreen.style.display = 'block';
-          document.getElementById('endMusic').play();
-        } else {
+  document.querySelector('.instrument-container').style.display = 'none';
+  display.style.display = 'none';
+  endScreen.style.display = 'block';
+
+  // 2秒後に音楽を再生
+  setTimeout(() => {
+    document.getElementById('endMusic').play();
+  }, 2000); // ← 2000ミリ秒 = 2秒
+}
+else {
           userSequence = [];
           display.innerHTML = '';
         }
