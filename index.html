@@ -86,10 +86,17 @@
   <div class="end-screen" id="endScreen">
     <p>ありがとう、やっと にあ の音が聴けたよ。</p>
     <p>（エンドロール）</p>
-    <audio id="endMusic" controls="" autoplay="">
-      <source src="dear_NIA.mp3" type="audio/mp3">
-      このブラウザは音声再生に対応していません。
+    <audio id="endMusic" autoplay style="display:none;">
+  <source src="dear_NIA.mp3" type="audio/mp3">
+  このブラウザは音声再生に対応していません。
     </audio>
+
+    <!-- 再生制御用のボタン -->
+    <div style="margin-top: 1rem;">
+      <button id="stopMusicBtn">音楽を止める</button>
+      <button id="muteToggleBtn">ミュート</button>
+    </div>
+
   </div>
   <script>
     const correctSequence = ['♭','▽','◎','◎','◎','◯','∴'];
@@ -127,7 +134,6 @@
 }
 
 
-
     function checkSequence() {
       if (userSequence.length === correctSequence.length) {
         const isCorrect = userSequence.every((val, index) => val === correctSequence[index]);
@@ -157,6 +163,23 @@ else {
         checkSequence();
       });
     });
+
+
+    // 再生停止ボタン
+document.getElementById('stopMusicBtn').addEventListener('click', () => {
+  const music = document.getElementById('endMusic');
+  music.pause();
+  music.currentTime = 0; // 曲の先頭に戻す
+});
+
+// ミュート切り替えボタン
+const muteBtn = document.getElementById('muteToggleBtn');
+muteBtn.addEventListener('click', () => {
+  const music = document.getElementById('endMusic');
+  music.muted = !music.muted;
+  muteBtn.textContent = music.muted ? 'ミュート解除' : 'ミュート';
+});
+
   </script>
 
 
