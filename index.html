@@ -93,7 +93,6 @@
 
     <!-- 再生制御用のボタン -->
     <div style="margin-top: 1rem;">
-      <button id="stopMusicBtn">音楽を止める</button>
       <button id="muteToggleBtn">ミュート</button>
     </div>
 
@@ -164,13 +163,6 @@ else {
       });
     });
 
-
-    // 再生停止ボタン
-document.getElementById('stopMusicBtn').addEventListener('click', () => {
-  const music = document.getElementById('endMusic');
-  music.pause();
-  music.currentTime = 0; // 曲の先頭に戻す
-});
 
 // ミュート切り替えボタン
 const muteBtn = document.getElementById('muteToggleBtn');
