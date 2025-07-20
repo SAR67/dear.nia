@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>にあへのメロディ</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.39/Tone.min.js"></script>
+  <script src="./にあへのメロディ確定版_files/Tone.min.js"></script>
   <style>
     body {
       background: #fefcf8;
@@ -28,15 +28,14 @@
     }
     .note-button {
       position: absolute;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      border-radius: 100%;
       border: none;
-      background-color: rgba(255,255,255,0.7);
+      background-color: rgba(255,240,230,1);
       font-size: 1.2rem;
       cursor: pointer;
     }
-    /* 位置調整（手動で画像のボタン位置に合わせる） */
     .note-◎ { top: 84.5px; left: 118px; }
     .note-◯ { top: 122px; left: 107.5px; }
     .note-∴ { top: 160px; left: 97.3px; }
@@ -87,12 +86,11 @@
   <div class="end-screen" id="endScreen">
     <p>ありがとう、やっと にあ の音が聴けたよ。</p>
     <p>（エンドロール）</p>
-    <audio id="endMusic" controls autoplay>
+    <audio id="endMusic" controls="" autoplay="">
       <source src="your-final-melody.mp3" type="audio/mp3">
       このブラウザは音声再生に対応していません。
     </audio>
   </div>
-
   <script>
     const correctSequence = ['♭','▽','◎','◎','◎','◯','∴'];
     let userSequence = [];
@@ -100,25 +98,35 @@
     const buttons = document.querySelectorAll('.note-button');
     const display = document.getElementById('melodyDisplay');
     const endScreen = document.getElementById('endScreen');
-    const synth = new Tone.Synth().toDestination();
+　 const synth = new Tone.PolySynth(Tone.Synth).toDestination();
 
-    const noteMap = {
-      '◎': 'C4',
-      '◯': 'D4',
-      '∴': 'E4',
-      '☽': 'G4',
-      '▽': 'A4',
-      '♭': 'B3'
-    };
 
-    function playNote(note) {
-      const el = document.createElement('span');
-      el.textContent = note;
-      el.style.margin = '0 0.2rem';
-      display.appendChild(el);
-      const pitch = noteMap[note];
-      if (pitch) synth.triggerAttackRelease(pitch, '8n');
-    }
+   const noteMap = {
+  '◎': ['E4', 'G4', 'B4'],     // Eマイナー
+  '◯': ['D4', 'F#4', 'A4'],    // Dメジャー
+  '∴': ['C4', 'E4', 'G4'],     // Cメジャー
+  '☽': ['A3', 'C4', 'E4'],     // Aマイナー
+  '▽': ['D4', 'G4', 'B4'],     // Gメジャー転回
+  '♭': ['A#3', 'D4', 'F4']     // B♭メジャー
+};
+
+
+　function playNote(note) {
+  const el = document.createElement('span');
+  el.textContent = note;
+  el.style.margin = '0 0.2rem';
+  display.appendChild(el);
+
+  const pitches = noteMap[note];
+  if (pitches && Array.isArray(pitches)) {
+    const now = Tone.now();
+    pitches.forEach((pitch, index) => {
+      synth.triggerAttackRelease(pitch, '8n', now + index * 0.3); // 0.1秒ずつずらす
+    });
+  }
+}
+
+
 
     function checkSequence() {
       if (userSequence.length === correctSequence.length) {
@@ -145,5 +153,8 @@
       });
     });
   </script>
+
+
 </body>
+
 </html>
