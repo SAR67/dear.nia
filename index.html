@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>僕の曲を完成させて。</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.39/Tone.min.js"></script>
@@ -42,7 +42,6 @@
     .note-☽ { top: 198px; left: 87.5px; }
     .note-▽ { top: 236px; left: 78px; }
     .note-♭ { top: 275px; left: 67.5px; }
-
     .display {
       margin: 2rem auto;
       min-height: 3rem;
@@ -84,12 +83,12 @@
   </div>
   <div class="display" id="melodyDisplay"></div>
   <div class="message-screen" id="messageScreen" style="display:none;">
-  <p>そうだ、このメロディだった。</p>
-  <p>みつけてくれて　ありがとう。これで　やっとかんせいだ。</p>
-  <p>ニアに　とどけてくるね。ほんとうに ありがとう。</p>
-  <button id="toEndScreen" style="margin-top: 2rem; padding: 0.6rem 1.2rem; font-size: 1rem; background-color: #f6c5c5; border: none; border-radius: 8px; cursor: pointer;">
-    にあに とどける
-  </button>
+    <p>そうだ、このメロディだった。</p>
+    <p>みつけてくれて　ありがとう。これで　やっとかんせいだ。</p>
+    <p>ニアに　とどけてくるね。ほんとうに ありがとう。</p>
+    <button id="toEndScreen" style="margin-top: 2rem; padding: 0.6rem 1.2rem; font-size: 1rem; background-color: #f6c5c5; border: none; border-radius: 8px; cursor: pointer;">
+      にあに とどける
+    </button>
   </div>
   <div class="end-screen" id="endScreen">
     <p>見つけてくれたあなた、そしてフォルへ</p>
@@ -100,9 +99,7 @@
     <p>きっとフォルも喜んでる。</p>
     <p>あなたが繋いでくれたこの音は、わたしの中でずっと流れ続けます。</p>
     <p>ありがとう。本当に、ありがとう。</p>
-    <p>　</p>
-    <p>　</p>
-    <p>　</p>
+    <p>　</p><p>　</p><p>　</p>
     <p>フォル。</p>
     <p>きみの音、ちゃんと届いたよ。</p>
     <p>あの日渡したかった最後のメロディ、ちゃんとわたしのところに届いた。</p>
@@ -112,119 +109,93 @@
     <p>きみがそう願ってくれていたように。</p>
     <p>　</p>
     <p>僕の最愛の親友、フォル。また君に会えたら、もう一度君の音を聞かせてくれますか。</p>
-    <p>　</p>
-    <p>　</p>
-    <p>　</p>
-    <p>　</p>
-    <p>　</p>
-    <p>　</p>
+    <p>　</p><p>　</p><p>　</p><p>　</p><p>　</p><p>　</p>
     <p>ここまでプレイしていただき、ありがとうございました。</p>
     <p>最後にプレイした感想・ご意見ご記入いただけると幸いです。</p>
-    <p>　</p>
-    <audio id="endMusic" autoplay style="display:none;">
-  <source src="dear_NIA.mp3" type="audio/mp3">
-  このブラウザは音声再生に対応していません。
+    <audio id="endMusic" style="display:none;">
+      <source src="dear_NIA.mp3" type="audio/mp3">
+      このブラウザは音声再生に対応していません。
     </audio>
-    
     <div style="margin-top: 2rem;">
-  <a href="https://docs.google.com/forms/d/e/1FAIpQLScayx2WHoMnF1EOqquhiozUS7fvLxMSjPQXczXRx_-YoVBq5A/viewform?usp=dialog" 
-     target="_blank" 
-     style="display: inline-block; padding: 0.6rem 1.2rem; background-color: #f6c5c5; color: #333; text-decoration: none; border-radius: 8px; font-size: 1rem;">
-    フォルへの返信を送る
-  </a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLScayx2WHoMnF1EOqquhiozUS7fvLxMSjPQXczXRx_-YoVBq5A/viewform?usp=dialog" 
+         target="_blank" 
+         style="display: inline-block; padding: 0.6rem 1.2rem; background-color: #f6c5c5; color: #333; text-decoration: none; border-radius: 8px; font-size: 1rem;">
+        フォルへの返信を送る
+      </a>
     </div>
-
-
-    <!-- 再生制御用のボタン -->
     <div style="margin-top: 1rem;">
       <button id="muteToggleBtn">ミュート</button>
     </div>
-
   </div>
-  <script>
-    const correctSequence = ['♭','▽','◎','◎','◎','◯','∴'];
-    let userSequence = [];
 
-    const buttons = document.querySelectorAll('.note-button');
-    const display = document.getElementById('melodyDisplay');
-    const endScreen = document.getElementById('endScreen');
-    const synth = new Tone.PolySynth(Tone.Synth).toDestination();
-
-
-   const noteMap = {
-  '◎': ['E4', 'G4', 'B4'],     // Eマイナー
-  '◯': ['D4', 'F#4', 'A4'],    // Dメジャー
-  '∴': ['C4', 'E4', 'G4'],     // Cメジャー
-  '☽': ['A3', 'C4', 'E4'],     // Aマイナー
-  '▽': ['D4', 'G4', 'B4'],     // Gメジャー転回
-  '♭': ['A#3', 'D4', 'F4']     // B♭メジャー
-};
-
+<script>
+  const correctSequence = ['♭','▽','◎','◎','◎','◯','∴'];
+  let userSequence = [];
+  const buttons = document.querySelectorAll('.note-button');
+  const display = document.getElementById('melodyDisplay');
+  const synth = new Tone.PolySynth(Tone.Synth).toDestination();
+  const noteMap = {
+    '◎': ['E4', 'G4', 'B4'],
+    '◯': ['D4', 'F#4', 'A4'],
+    '∴': ['C4', 'E4', 'G4'],
+    '☽': ['A3', 'C4', 'E4'],
+    '▽': ['D4', 'G4', 'B4'],
+    '♭': ['A#3', 'D4', 'F4']
+  };
 
   function playNote(note) {
-  const el = document.createElement('span');
-  el.textContent = note;
-  el.style.margin = '0 0.2rem';
-  display.appendChild(el);
+    const el = document.createElement('span');
+    el.textContent = note;
+    el.style.margin = '0 0.2rem';
+    display.appendChild(el);
 
-  const pitches = noteMap[note];
-  if (pitches && Array.isArray(pitches)) {
-    const now = Tone.now();
-    pitches.forEach((pitch, index) => {
-      synth.triggerAttackRelease(pitch, '8n', now + index * 0.3); // 0.1秒ずつずらす
-    });
-  }
-}
-
-
-  function checkSequence() {
-  if (userSequence.length === correctSequence.length) {
-    const isCorrect = userSequence.every((val, index) => val === correctSequence[index]);
-    if (isCorrect) {
-      document.querySelector('.instrument-container').style.display = 'none';
-      display.style.display = 'none';
-      document.getElementById('messageScreen').style.display = 'block'; // 中間メッセージ表示
-    } else {
-      userSequence = [];
-      display.innerHTML = '';
+    const pitches = noteMap[note];
+    if (pitches) {
+      const now = Tone.now();
+      pitches.forEach((pitch, index) => {
+        synth.triggerAttackRelease(pitch, '8n', now + index * 0.3);
+      });
     }
   }
-}
 
-    buttons.forEach(button => {
-      button.addEventListener('click', async () => {
-        await Tone.start();
-        const note = button.getAttribute('data-note');
-        userSequence.push(note);
-        playNote(note);
-        checkSequence();
-      });
+  function checkSequence() {
+    if (userSequence.length === correctSequence.length) {
+      const isCorrect = userSequence.every((val, index) => val === correctSequence[index]);
+      if (isCorrect) {
+        document.querySelector('.instrument-container').style.display = 'none';
+        display.style.display = 'none';
+        document.getElementById('messageScreen').style.display = 'block';
+      } else {
+        userSequence = [];
+        display.innerHTML = '';
+      }
+    }
+  }
+
+  buttons.forEach(button => {
+    button.addEventListener('click', async () => {
+      await Tone.start();
+      const note = button.getAttribute('data-note');
+      userSequence.push(note);
+      playNote(note);
+      checkSequence();
     });
-
+  });
 
   document.getElementById('toEndScreen').addEventListener('click', () => {
-  document.getElementById('messageScreen').style.display = 'none';
-  document.getElementById('endScreen').style.display = 'block';
-  document.getElementById('endMusic').play();
-});
-      // 2秒後に音楽を再生
-  setTimeout(() => {
-    document.getElementById('endMusic').play();
-  }, 2000); // ← 2000ミリ秒 = 2秒
+    document.getElementById('messageScreen').style.display = 'none';
+    document.getElementById('endScreen').style.display = 'block';
+    setTimeout(() => {
+      document.getElementById('endMusic').play();
+    }, 2000);
+  });
 
-    // ミュート切り替えボタン
-const muteBtn = document.getElementById('muteToggleBtn');
-muteBtn.addEventListener('click', () => {
-  const music = document.getElementById('endMusic');
-  music.muted = !music.muted;
-  muteBtn.textContent = music.muted ? 'ミュート解除' : 'ミュート';
-});
-
-
-
-  </script>
-
-
+  const muteBtn = document.getElementById('muteToggleBtn');
+  muteBtn.addEventListener('click', () => {
+    const music = document.getElementById('endMusic');
+    music.muted = !music.muted;
+    muteBtn.textContent = music.muted ? 'ミュート解除' : 'ミュート';
+  });
+</script>
 </body>
-
 </html>
