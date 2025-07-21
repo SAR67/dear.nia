@@ -191,19 +191,6 @@
   }
 }
 
-
-  // 2秒後に音楽を再生
-  setTimeout(() => {
-    document.getElementById('endMusic').play();
-  }, 2000); // ← 2000ミリ秒 = 2秒
-}
-else {
-          userSequence = [];
-          display.innerHTML = '';
-        }
-      }
-    }
-
     buttons.forEach(button => {
       button.addEventListener('click', async () => {
         await Tone.start();
@@ -215,7 +202,17 @@ else {
     });
 
 
-// ミュート切り替えボタン
+  document.getElementById('toEndScreen').addEventListener('click', () => {
+  document.getElementById('messageScreen').style.display = 'none';
+  document.getElementById('endScreen').style.display = 'block';
+  document.getElementById('endMusic').play();
+});
+      // 2秒後に音楽を再生
+  setTimeout(() => {
+    document.getElementById('endMusic').play();
+  }, 2000); // ← 2000ミリ秒 = 2秒
+
+    // ミュート切り替えボタン
 const muteBtn = document.getElementById('muteToggleBtn');
 muteBtn.addEventListener('click', () => {
   const music = document.getElementById('endMusic');
@@ -223,11 +220,6 @@ muteBtn.addEventListener('click', () => {
   muteBtn.textContent = music.muted ? 'ミュート解除' : 'ミュート';
 });
 
-  document.getElementById('toEndScreen').addEventListener('click', () => {
-  document.getElementById('messageScreen').style.display = 'none';
-  document.getElementById('endScreen').style.display = 'block';
-  document.getElementById('endMusic').play();
-});
 
 
   </script>
