@@ -3,7 +3,7 @@
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>フォルの曲を完成させて。</title>
+  <title>僕の曲を完成させて。</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.39/Tone.min.js"></script>
   <style>
     body {
@@ -83,7 +83,16 @@
     <button class="note-button note-♭" data-note="♭">♭</button>
   </div>
   <div class="display" id="melodyDisplay"></div>
+  <div class="message-screen" id="messageScreen" style="display:none;">
+  <p>そうだ、このメロディだった。</p>
+  <p>みつけてくれてありがとう。これでやっと完成だ。</p>
+  <p>ニアに届けてくるね。ほんとうに ありがとう。</p>
+  <button id="toEndScreen" style="margin-top: 2rem; padding: 0.6rem 1.2rem; font-size: 1rem; background-color: #f6c5c5; border: none; border-radius: 8px; cursor: pointer;">
+    にあに とどける
+  </button>
+  </div>
   <div class="end-screen" id="endScreen">
+    <p>　</p>
     <p>ありがとうございます、やっとフォルの最後の音が聴けた。</p>
     <p>今まで心残りで何も手につかなかったんです</p>
     <p>　</p>
@@ -155,13 +164,20 @@
 }
 
 
-    function checkSequence() {
-      if (userSequence.length === correctSequence.length) {
-        const isCorrect = userSequence.every((val, index) => val === correctSequence[index]);
-        if (isCorrect) {
-  document.querySelector('.instrument-container').style.display = 'none';
-  display.style.display = 'none';
-  endScreen.style.display = 'block';
+  function checkSequence() {
+  if (userSequence.length === correctSequence.length) {
+    const isCorrect = userSequence.every((val, index) => val === correctSequence[index]);
+    if (isCorrect) {
+      document.querySelector('.instrument-container').style.display = 'none';
+      display.style.display = 'none';
+      document.getElementById('messageScreen').style.display = 'block'; // 中間メッセージ表示
+    } else {
+      userSequence = [];
+      display.innerHTML = '';
+    }
+  }
+}
+
 
   // 2秒後に音楽を再生
   setTimeout(() => {
@@ -193,6 +209,13 @@ muteBtn.addEventListener('click', () => {
   music.muted = !music.muted;
   muteBtn.textContent = music.muted ? 'ミュート解除' : 'ミュート';
 });
+
+  document.getElementById('toEndScreen').addEventListener('click', () => {
+  document.getElementById('messageScreen').style.display = 'none';
+  document.getElementById('endScreen').style.display = 'block';
+  document.getElementById('endMusic').play();
+});
+
 
   </script>
 
